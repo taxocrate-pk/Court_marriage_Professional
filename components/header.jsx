@@ -52,11 +52,12 @@ export function Header() {
             <div className="w-10 h-10 rounded-lg bg-gold/20 border border-gold/30 flex items-center justify-center group-hover:bg-gold/30 transition-colors">
               <Scale className="w-5 h-5 text-gold" />
             </div>
-            <div className="hidden sm:block">
-              <div className="text-lg font-bold text-foreground">Court-Marriage</div>
-              <div className="text-xs text-gold font-medium -mt-0.5">.Site</div>
-            </div>
-          </Link>
+<div className="hidden sm:block">
+  <div className="text-lg font-bold text-foreground">COURT MARRIAGE</div>
+  <div className="text-xs text-gold font-medium -mt-0.5">PROFESSIONAL</div>
+</div>
+
+</Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-1">
@@ -90,7 +91,7 @@ export function Header() {
               >
                 <a href="tel:+923332317861">
                   <Phone className="w-4 h-4 mr-2" />
-                  +92 333 2317861
+                  +92 333 2316871
                 </a>
               </Button>
             </div>

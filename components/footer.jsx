@@ -36,10 +36,10 @@ export function Footer() {
               <div className="w-10 h-10 rounded-lg bg-gold/20 border border-gold/30 flex items-center justify-center">
                 <Scale className="w-5 h-5 text-gold" aria-hidden="true" />
               </div>
-              <div>
-                <div className="text-lg font-bold text-foreground">Court-Marriage</div>
-                <div className="text-xs text-gold font-medium -mt-0.5">.Site</div>
-              </div>
+<div className="hidden sm:block">
+  <div className="text-lg font-bold text-foreground">COURT MARRIAGE</div>
+  <div className="text-xs text-gold font-medium -mt-0.5">PROFESSIONAL</div>
+</div>
             </Link>
             <p className="text-foreground/70 text-sm leading-relaxed mb-6">
               Pakistan&apos;s trusted family law firm with 40+ years of experience. 
@@ -106,7 +106,7 @@ export function Footer() {
                   aria-label="Email us at info@courtmarriage.site"
                 >
                   <Mail className="w-4 h-4 mt-0.5 shrink-0" aria-hidden="true" />
-                  <span>info@courtmarriage.site</span>
+                  <span>info@courtmarriage.pro</span>
                 </a>
               </li>
               <li className="flex items-start gap-3 text-foreground/70 text-sm">

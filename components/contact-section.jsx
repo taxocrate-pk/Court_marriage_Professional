@@ -1,222 +1,216 @@
 'use client'
 
 import { useState } from 'react'
-import { MapPin, Phone, Mail, Send, CheckCircle2, Loader2 } from 'lucide-react'
+import axios from 'axios'
+import { MapPin, Phone, Mail, Send, CheckCircle2, Loader2, ShieldCheck, Clock, Gavel } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Field, FieldLabel, FieldGroup } from '@/components/ui/field'
-
-const offices = [
-  {
-    city: 'Karachi Head Office',
-    address: 'A-1937/B, Metroville III Colony, Scheme 33, Karachi.',
-    phone: '+92 333 2317861',
-  },
-  {
-    city: 'Islamabad Office',
-    address: 'Office No. 5, 2nd Floor, Laraib Plaza, G-9 Markaz, Islamabad.',
-    phone: '+92 333 2316871',
-  },
-  {
-    city: 'Lahore Office',
-    address: 'Office No.2, 1st Floor, Al-Mairaj Arcade, Chauburji Chowk, Lahore.',
-    phone: '+92 333 1127836',
-  },
-]
+import { Input } from './ui/input'
 
 export function ContactSection() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
+  
+  const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    service: '',
+    message: ''
+  })
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value })
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     setIsSubmitting(true)
-    
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1500))
-    
-    setIsSubmitting(false)
-    setIsSubmitted(true)
-    
-    // Reset after 3 seconds
-    setTimeout(() => setIsSubmitted(false), 3000)
+    try {
+      const res = await axios.post('/api/contact', formData)
+      if (res.status === 200) {
+        setIsSubmitted(true)
+        setFormData({ name: '', phone: '', email: '', service: '', message: '' })
+        setTimeout(() => setIsSubmitted(false), 5000)
+      }
+    } catch (err) {
+      console.error("Submission Error:", err)
+      alert("Database connection error!")
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
-    <section id="contact" className="py-20 lg:py-32 relative">
-      {/* Background Decoration */}
+    <section id="contact" className="py-20 lg:py-32 relative overflow-hidden">
+      {/* Top Border Gradient */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/50 to-transparent" />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground text-balance">
-            Contact Us
-          </h2>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground text-balance">Contact Us</h2>
           <p className="mt-4 text-lg text-foreground/80 max-w-2xl mx-auto">
-            Get in touch with our legal team for a confidential consultation about your marriage or family law needs.
+            Get in touch with our legal team for a confidential consultation.
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12">
-          {/* Contact Form */}
-          <div className="glass-card-strong rounded-2xl p-6 sm:p-8">
-            <h3 className="text-xl font-bold text-foreground mb-6">Send Us a Message</h3>
+        <div className="grid lg:grid-cols-2 gap-16 items-start">
+          
+          {/* LEFT SIDE: Content & Info (The part you wanted to add) */}
+          <div className="space-y-10">
+            <div>
+              <h3 className="text-2xl font-bold text-gold mb-4 text-gradient-gold">Why Consult With Us?</h3>
+              <p className="text-foreground/70 leading-relaxed text-lg">
+                We provide a secure and simplified legal process for families and individuals. 
+                Our team ensures every step is handled with utmost professionalism and legal compliance.
+              </p>
+            </div>
+
+            {/* Feature List */}
+            <div className="grid gap-6">
+              <div className="flex gap-4 group">
+                <div className="w-12 h-12 rounded-xl bg-gold/10 border border-gold/20 flex items-center justify-center shrink-0 group-hover:bg-gold/20 transition-colors">
+                  <ShieldCheck className="w-6 h-6 text-gold" />
+                </div>
+                <div>
+                  <h4 className="font-bold text-foreground">100% Legal Protection</h4>
+                  <p className="text-sm text-foreground/60">All procedures follow Pakistani Family Laws and Sharia requirements.</p>
+                </div>
+              </div>
+
+              <div className="flex gap-4 group">
+                <div className="w-12 h-12 rounded-xl bg-gold/10 border border-gold/20 flex items-center justify-center shrink-0 group-hover:bg-gold/20 transition-colors">
+                  <Clock className="w-6 h-6 text-gold" />
+                </div>
+                <div>
+                  <h4 className="font-bold text-foreground">Same Day Service</h4>
+                  <p className="text-sm text-foreground/60">Swift documentation and Nikah registration within 24 hours.</p>
+                </div>
+              </div>
+
+              <div className="flex gap-4 group">
+                <div className="w-12 h-12 rounded-xl bg-gold/10 border border-gold/20 flex items-center justify-center shrink-0 group-hover:bg-gold/20 transition-colors">
+                  <Gavel className="w-6 h-6 text-gold" />
+                </div>
+                <div>
+                  <h4 className="font-bold text-foreground">Expert Advocates</h4>
+                  <p className="text-sm text-foreground/60">Direct access to High Court lawyers for complex legal matters.</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Quick Contact Card */}
+            <div className="p-8 rounded-3xl bg-midnight-light/30 border border-white/5 backdrop-blur-sm space-y-4">
+              <h4 className="font-bold text-gold">Direct Contact Info</h4>
+              <div className="flex items-center gap-3 text-foreground/80">
+                <Phone className="w-5 h-5 text-gold" />
+                <span>+92 333 2316871</span>
+              </div>
+              <div className="flex items-center gap-3 text-foreground/80">
+                <Mail className="w-5 h-5 text-gold" />
+                <span>info@legalnikah.com</span>
+              </div>
+              <div className="flex items-center gap-3 text-foreground/80">
+                <MapPin className="w-5 h-5 text-gold" />
+                <span>Karachi, Pakistan</span>
+              </div>
+            </div>
+          </div>
+
+          {/* RIGHT SIDE: The Form */}
+          <div className="glass-card-strong rounded-3xl p-6 sm:p-10 border border-white/10 shadow-2xl relative">
+            <h3 className="text-xl font-bold text-foreground mb-8">Send Us a Message</h3>
             
             {isSubmitted ? (
-              <div className="flex flex-col items-center justify-center py-12 text-center">
-                <div className="w-16 h-16 rounded-full bg-green-500/20 flex items-center justify-center mb-4">
-                  <CheckCircle2 className="w-8 h-8 text-green-500" aria-hidden="true" />
+              <div className="flex flex-col items-center justify-center py-16 text-center animate-in fade-in zoom-in duration-500">
+                <div className="w-20 h-20 rounded-full bg-green-500/20 flex items-center justify-center mb-6">
+                  <CheckCircle2 className="w-10 h-10 text-green-500" />
                 </div>
-                <h4 className="text-lg font-semibold text-foreground mb-2">Message Sent Successfully!</h4>
-                <p className="text-foreground/70">We will get back to you within 24 hours.</p>
+                <h4 className="text-2xl font-bold text-foreground mb-2">Thank You!</h4>
+                <p className="text-foreground/70">Your message has been received. Our team will contact you shortly.</p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6">
-                <FieldGroup>
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    <Field>
-                      <FieldLabel htmlFor="name" className="text-foreground/90">Full Name</FieldLabel>
-                      <Input
-                        id="name"
-                        name="name"
-                        type="text"
-                        required
-                        placeholder="Your full name"
-                        className="bg-midnight-light/50 border-border/50 text-foreground placeholder:text-foreground/40 focus:border-gold focus:ring-gold/20"
-                        aria-required="true"
-                      />
-                    </Field>
-                    <Field>
-                      <FieldLabel htmlFor="phone" className="text-foreground/90">Phone Number</FieldLabel>
-                      <Input
-                        id="phone"
-                        name="phone"
-                        type="tel"
-                        required
-                        placeholder="+92 3XX XXXXXXX"
-                        className="bg-midnight-light/50 border-border/50 text-foreground placeholder:text-foreground/40 focus:border-gold focus:ring-gold/20"
-                        aria-required="true"
-                      />
-                    </Field>
-                  </div>
-                  <Field>
-                    <FieldLabel htmlFor="email" className="text-foreground/90">Email Address</FieldLabel>
+                <div className="grid sm:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <label className="text-xs font-semibold uppercase tracking-wider text-foreground/50 ml-1">Full Name</label>
                     <Input
-                      id="email"
-                      name="email"
-                      type="email"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      placeholder="Your name"
+                      className="bg-midnight/40 border-white/10 text-foreground h-12 focus:border-gold/50 transition-all"
                       required
-                      placeholder="your@email.com"
-                      className="bg-midnight-light/50 border-border/50 text-foreground placeholder:text-foreground/40 focus:border-gold focus:ring-gold/20"
-                      aria-required="true"
                     />
-                  </Field>
-                  <Field>
-                    <FieldLabel htmlFor="service" className="text-foreground/90">Service Required</FieldLabel>
-                    <select
-                      id="service"
-                      name="service"
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-xs font-semibold uppercase tracking-wider text-foreground/50 ml-1">Phone Number</label>
+                    <Input
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      placeholder="+92 XXX XXXXXXX"
+                      className="bg-midnight/40 border-white/10 text-foreground h-12 focus:border-gold/50 transition-all"
                       required
-                      className="flex h-10 w-full rounded-md border border-border/50 bg-midnight-light/50 px-3 py-2 text-sm text-foreground ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/20 focus-visible:border-gold"
-                      aria-required="true"
-                    >
-                      <option value="">Select a service</option>
-                      <option value="court-marriage">Court Marriage</option>
-                      <option value="online-nikah">Online Nikah</option>
-                      <option value="nikah-registration">Nikah Registration</option>
-                      <option value="divorce">Divorce / Khula</option>
-                      <option value="child-custody">Child Custody</option>
-                      <option value="other">Other Legal Service</option>
-                    </select>
-                  </Field>
-                  <Field>
-                    <FieldLabel htmlFor="message" className="text-foreground/90">Your Message</FieldLabel>
-                    <Textarea
-                      id="message"
-                      name="message"
-                      required
-                      rows={4}
-                      placeholder="Please describe your requirements..."
-                      className="bg-midnight-light/50 border-border/50 text-foreground placeholder:text-foreground/40 focus:border-gold focus:ring-gold/20 resize-none"
-                      aria-required="true"
                     />
-                  </Field>
-                </FieldGroup>
-                
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-xs font-semibold uppercase tracking-wider text-foreground/50 ml-1">Email Address</label>
+                  <Input
+                    name="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="example@mail.com"
+                    className="bg-midnight/40 border-white/10 text-foreground h-12 focus:border-gold/50 transition-all"
+                    required
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-xs font-semibold uppercase tracking-wider text-foreground/50 ml-1">Service Required</label>
+                  <select
+                    name="service"
+                    value={formData.service}
+                    onChange={handleChange}
+                    required
+                    className="flex h-12 w-full rounded-md border border-white/10 bg-midnight/40 px-3 py-2 text-sm text-foreground focus:ring-2 focus:ring-gold/20 outline-none focus:border-gold/50 transition-all"
+                  >
+                    <option value="" className="bg-midnight">Select Service</option>
+                    <option value="court-marriage" className="bg-midnight">Court Marriage</option>
+                    <option value="online-nikah" className="bg-midnight">Online Nikah</option>
+                    <option value="divorce" className="bg-midnight">Divorce / Khula</option>
+                  </select>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-xs font-semibold uppercase tracking-wider text-foreground/50 ml-1">Your Message</label>
+                  <Textarea
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    placeholder="Tell us about your requirements..."
+                    className="bg-midnight/40 border-white/10 text-foreground focus:border-gold/50 transition-all resize-none"
+                    rows={4}
+                    required
+                  />
+                </div>
+
                 <Button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-gold hover:bg-gold-dark text-midnight font-semibold py-6 rounded-xl transition-all duration-300"
-                  aria-label="Submit contact form"
+                  className="w-full bg-gold hover:bg-gold-dark text-midnight font-bold py-7 rounded-2xl transition-all duration-300 shadow-lg shadow-gold/10 group"
                 >
                   {isSubmitting ? (
-                    <>
-                      <Loader2 className="w-5 h-5 mr-2 animate-spin" aria-hidden="true" />
-                      Sending...
-                    </>
+                    <><Loader2 className="w-5 h-5 mr-2 animate-spin" /> Processing...</>
                   ) : (
-                    <>
-                      <Send className="w-5 h-5 mr-2" aria-hidden="true" />
-                      Send Message
-                    </>
+                    <><Send className="w-5 h-5 mr-2 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" /> Send Message</>
                   )}
                 </Button>
               </form>
             )}
-          </div>
-
-          {/* Office Locations */}
-          <div className="space-y-6">
-            <h3 className="text-xl font-bold text-foreground mb-6">Our Offices</h3>
-            
-            {offices.map((office, index) => (
-              <Card 
-                key={index}
-                className="glass-card border-gold/20 hover:border-gold/40 transition-all duration-300"
-              >
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-lg text-gold flex items-center gap-2">
-                    <MapPin className="w-5 h-5" aria-hidden="true" />
-                    {office.city}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <p className="text-foreground/80 text-sm">{office.address}</p>
-                  <a 
-                    href={`tel:${office.phone.replace(/\s/g, '')}`}
-                    className="inline-flex items-center gap-2 text-foreground hover:text-gold transition-colors"
-                    aria-label={`Call ${office.city} at ${office.phone}`}
-                  >
-                    <Phone className="w-4 h-4" aria-hidden="true" />
-                    <span className="font-medium">{office.phone}</span>
-                  </a>
-                </CardContent>
-              </Card>
-            ))}
-
-            {/* Email Contact */}
-            <Card className="glass-card border-gold/20">
-              <CardContent className="py-6">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-gold/20 border border-gold/30 flex items-center justify-center">
-                    <Mail className="w-6 h-6 text-gold" aria-hidden="true" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-foreground/70">Email Us</p>
-                    <a 
-                      href="mailto:info@courtmarriage.site"
-                      className="text-foreground hover:text-gold font-medium transition-colors"
-                      aria-label="Send email to info@courtmarriage.site"
-                    >
-                      info@courtmarriage.site
-                    </a>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
           </div>
         </div>
       </div>
