@@ -1,21 +1,26 @@
 import { MongoClient } from 'mongodb';
 import { NextResponse } from 'next/server';
 
-// Connection string ko bahar rakhein
-const uri = process.env.MONGODB_URI;
-const client = new MongoClient(uri);
-
 export async function POST(req) {
+  // 1. URI ko hamesha function ke andar rakhein taake .env load ho chuki ho
+  const uri = process.env.MONGODB_URI;
+
+  if (!uri) {
+    console.error("ERROR: MONGODB_URI is undefined. Check your .env.local file!");
+    return NextResponse.json({ error: "Database URI missing" }, { status: 500 });
+  }
+
+  // 2. Client ko yahan define karein
+  const client = new MongoClient(uri);
+
   try {
-    // Check karein data aa raha hai ya nahi
     const body = await req.json();
     
-    if (!body) {
-      return NextResponse.json({ error: "Data empty hai" }, { status: 400 });
-    }
-
+    // 3. Database se connect karein
     await client.connect();
-    const db = client.db('CourtMarriage');
+    
+    // .env mein aapne 'LegalPortal' likha hai, toh yahan bhi wahi use karein
+    const db = client.db('LegalPortal'); 
     const collection = db.collection('users');
 
     await collection.insertOne({
@@ -24,11 +29,16 @@ export async function POST(req) {
     });
 
     return NextResponse.json({ message: "Success" }, { status: 200 });
+
   } catch (error) {
-    console.error("Database Error:", error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error("DATABASE ERROR DETAILS:", error);
+    return NextResponse.json({ 
+      error: "Internal Server Error", 
+      details: error.message 
+    }, { status: 500 });
+
   } finally {
-    // Connection close karna mat bhooliye ga
+    // 4. Connection band karna zaroori hai
     await client.close();
   }
 }
