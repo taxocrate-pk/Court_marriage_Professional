@@ -28,7 +28,23 @@ export function ContactSection() {
     setIsSubmitting(true)
     try {
       const res = await axios.post('/api/contact', formData)
+      
       if (res.status === 200) {
+        // --- WhatsApp Logic Start ---
+        const myWhatsAppNumber = "923332316871"; // Aapka number set kar diya hai
+        const messageText = `*New Inquiry via Portal*%0A%0A` +
+                            `*Name:* ${formData.name}%0A` +
+                            `*Phone:* ${formData.phone}%0A` +
+                            `*Email:* ${formData.email}%0A` +
+                            `*Service:* ${formData.service}%0A` +
+                            `*Details:* ${formData.message}`;
+
+        const whatsappUrl = `https://wa.me/${myWhatsAppNumber}?text=${messageText}`;
+        
+        // Naye tab mein WhatsApp khol dega
+        window.open(whatsappUrl, '_blank');
+        // --- WhatsApp Logic End ---
+
         setIsSubmitted(true)
         setFormData({ name: '', phone: '', email: '', service: '', message: '' })
         setTimeout(() => setIsSubmitted(false), 5000)
@@ -56,7 +72,7 @@ export function ContactSection() {
 
         <div className="grid lg:grid-cols-2 gap-16 items-start">
           
-          {/* LEFT SIDE: Content & Info (The part you wanted to add) */}
+          {/* LEFT SIDE: Content & Info */}
           <div className="space-y-10">
             <div>
               <h3 className="text-2xl font-bold text-gold mb-4 text-gradient-gold">Why Consult With Us?</h3>
