@@ -23,15 +23,15 @@ export function ContactSection() {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
-  const handleSubmit = async (e) => {
+const handleSubmit = async (e) => {
     e.preventDefault()
     setIsSubmitting(true)
     try {
       const res = await axios.post('/api/contact', formData)
       
       if (res.status === 200) {
-        // --- WhatsApp Logic Start ---
-        const myWhatsAppNumber = "923332316871"; // Aapka number set kar diya hai
+        // --- Pehle Variables Define Karein ---
+        const myWhatsAppNumber = "923332316871";
         const messageText = `*New Inquiry via Portal*%0A%0A` +
                             `*Name:* ${formData.name}%0A` +
                             `*Phone:* ${formData.phone}%0A` +
@@ -40,14 +40,13 @@ export function ContactSection() {
                             `*Details:* ${formData.message}`;
 
         const whatsappUrl = `https://wa.me/${myWhatsAppNumber}?text=${messageText}`;
-        
-        // Naye tab mein WhatsApp khol dega
-        window.open(whatsappUrl, '_blank');
-        // --- WhatsApp Logic End ---
 
-        setIsSubmitted(true)
-        setFormData({ name: '', phone: '', email: '', service: '', message: '' })
-        setTimeout(() => setIsSubmitted(false), 5000)
+        // --- Ab Redirect Karein ---
+        window.location.href = whatsappUrl;
+
+        // --- Phir UI Update Karein ---
+        setFormData({ name: '', phone: '', email: '', service: '', message: '' });
+        setIsSubmitted(true);
       }
     } catch (err) {
       console.error("Submission Error:", err)
