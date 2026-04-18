@@ -1,146 +1,148 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { Menu, X, Phone, Scale, Moon, Sun } from 'lucide-react' // Moon aur Sun icons add kiye
+import { useTheme } from 'next-themes'
+import { Menu, X, Sun, Moon, ChevronDown, Phone, Scale } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
-import { useTheme } from 'next-themes' // useTheme hook import kiya
-
-const navLinks = [
-  { href: '#services', label: 'Services' },
-  { href: '#about', label: 'About' },
-  { href: '#urdu', label: 'اردو' },
-  { href: '#faq', label: 'FAQ' },
-  { href: '#contact', label: 'Contact' },
-]
 
 export function Header() {
-  const [isScrolled, setIsScrolled] = useState(false)
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const [mounted, setMounted] = useState(false) // Hydration error se bachne ke liye
+  const [mounted, setMounted] = useState(false)
   const { theme, setTheme } = useTheme()
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+
+  const serviceItems = [
+    { path: '/services/karachi', label: 'Karachi' },
+    { path: '/services/islamabad', label: 'Islamabad' },
+    { path: '/services/lahore', label: 'Lahore' },
+    { path: '/services/punjab', label: 'Punjab' },
+  ]
 
   useEffect(() => {
     setMounted(true)
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50)
-    }
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Agar component mount nahi hua toh icons show nahi karenge (Hydration fix)
   if (!mounted) return null
 
   return (
-    <header
-      className={cn(
-        'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
-        isScrolled
-          ? 'glass-card-strong py-3'
-          : 'bg-transparent py-4'
-      )}
-    >
-      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between">
-          {/* Logo */}
-          <Link 
-            href="/" 
-            className="flex items-center gap-3 group"
-          >
-            <div className="w-10 h-10 rounded-lg bg-gold/20 border border-gold/30 flex items-center justify-center group-hover:bg-gold/30 transition-colors">
-              <Scale className="w-5 h-5 text-gold" />
+    <header className="fixed top-0 w-full z-50 border-b border-gold/10 bg-black/90 backdrop-blur-md">
+      <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
+        
+        {/* Logo Section */}
+        <Link href="/" className="flex items-center gap-3 group" aria-label="Court Marriage Pro Home">
+          <div className="w-10 h-10 rounded-lg bg-gold/20 border border-gold/30 flex items-center justify-center group-hover:bg-gold/30 transition-colors">
+            <Scale className="w-5 h-5 text-gold" />
+          </div>
+          <div className="hidden sm:block">
+            <div className="text-lg font-bold text-white uppercase tracking-tight">
+              CourtMarriage <span className="text-gold ml-1">Pro</span>
             </div>
-<div className="hidden sm:block">
-  <div className="text-lg font-bold text-foreground">COURT MARRIAGE</div>
-  <div className="text-xs text-gold font-medium -mt-0.5">PROFESSIONAL</div>
-</div>
+            <div className="text-[10px] text-gold font-medium -mt-1 tracking-[0.2em] uppercase">
+              Professional
+            </div>
+          </div>
+        </Link>
 
-</Link>
+        {/* Desktop Nav */}
+        <nav className="hidden md:flex items-center gap-8">
+          <Link href="/" className="text-sm font-medium hover:text-gold transition-colors text-white">
+            Home
+          </Link>
+          
+          {/* Services Dropdown */}
+          <div className="relative group">
+            <button className="flex items-center gap-1 text-sm font-medium hover:text-gold transition-colors text-white" aria-haspopup="true">
+              Services <ChevronDown className="w-4 h-4 text-gold" />
+            </button>
+            
+            {/* Dropdown Menu - Pure Black Background */}
+            <div className="absolute top-full left-0 mt-2 w-48 bg-black border border-gold/20 rounded-xl shadow-[0_10px_40px_-10px_rgba(0,0,0,1)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
+              <div className="p-2 space-y-1">
+                {serviceItems.map((item) => (
+                  <Link
+                    key={item.path}
+                    href={item.path}
+                    className="block px-4 py-2 text-sm font-medium rounded-lg hover:bg-gold/10 hover:text-gold transition-colors text-white"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-1">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="px-4 py-2 text-sm font-medium text-foreground/80 hover:text-gold transition-colors rounded-lg hover:bg-gold/5"
+          <Link href="/about" className="text-sm font-medium hover:text-gold transition-colors text-white">
+            About
+          </Link>
+          <Link href="/contact" className="text-sm font-medium hover:text-gold transition-colors text-white">
+            Contact
+          </Link>
+        </nav>
+
+        {/* Actions */}
+        <div className="flex items-center gap-3">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+            className="text-gold hover:bg-gold/10"
+            aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+          >
+            {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+          </Button>
+
+          <div className="hidden md:flex">
+            <Button
+              asChild
+              className="bg-gold hover:bg-[#c5a037] text-black font-bold rounded-lg px-4 py-2 transition-all shadow-lg hover:shadow-gold/20"
+            >
+              <a href="tel:+923332316871" className="flex items-center">
+                <Phone className="w-4 h-4 mr-2" />
+                +92 333 2316871
+              </a>
+            </Button>
+          </div>
+
+          <button 
+            className="md:hidden text-gold p-2" 
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+          >
+            {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Menu Overlay - Pure Black */}
+      {isMenuOpen && (
+        <div className="md:hidden bg-black border-b border-gold/10 p-4 space-y-4 animate-in slide-in-from-top">
+          <Link href="/" className="block text-white font-semibold" onClick={() => setIsMenuOpen(false)}>Home</Link>
+          <div className="pl-4 border-l border-gold/20 space-y-3">
+            <p className="text-gold text-[10px] font-bold uppercase tracking-widest">Our Services</p>
+            {serviceItems.map(item => (
+              <Link 
+                key={item.path} 
+                href={item.path} 
+                className="block text-white font-medium text-sm"
+                onClick={() => setIsMenuOpen(false)}
               >
-                {link.label}
+                {item.label}
               </Link>
             ))}
           </div>
-
-          <div className="flex items-center gap-2">
-            {/* Theme Toggle Button (Desktop) */}
-  {/* Theme Toggle Button (Desktop) */}
-<Button
-  variant="ghost"
-  size="icon"
-  onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-  className="text-foreground hover:bg-gold/10"
-  // Fix: Accessibility label added
-  aria-label="Toggle theme"
->
-  {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-</Button>
-
-            {/* CTA Button */}
-            <div className="hidden md:flex items-center gap-4">
-              <Button
-                asChild
-                className="bg-gold hover:bg-gold-dark text-midnight font-semibold rounded-lg"
-              >
-                <a href="tel:+923332317861">
-                  <Phone className="w-4 h-4 mr-2" />
-                  +92 333 2316871
-                </a>
-              </Button>
-            </div>
-
-            {/* Mobile Menu Button */}
-          {/* Mobile Menu Button */}
-<button
-  onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-  className="md:hidden p-2 rounded-lg text-foreground hover:bg-gold/10"
-  // Fix: Accessibility label and state added
-  aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
-  aria-expanded={isMobileMenuOpen}
->
-  {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-</button>
-          </div>
+          <Link href="/about" className="block text-white font-semibold" onClick={() => setIsMenuOpen(false)}>About</Link>
+          <Link href="/contact" className="block text-white font-semibold" onClick={() => setIsMenuOpen(false)}>Contact</Link>
+          
+          <Button
+            asChild
+            className="bg-gold hover:bg-[#c5a037] text-black font-bold w-full mt-2"
+          >
+            <a href="tel:+923332316871">
+              <Phone className="w-4 h-4 mr-2" /> Call Now
+            </a>
+          </Button>
         </div>
-
-        {/* Mobile Menu */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden mt-4 pb-4 border-t border-border/30 pt-4">
-            <div className="flex flex-col gap-2">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="px-4 py-3 text-base font-medium text-foreground/90 hover:text-gold hover:bg-gold/5 rounded-lg"
-                >
-                  {link.label}
-                </Link>
-              ))}
-              <hr className="border-border/30 my-2" />
-              <Button
-                asChild
-                className="bg-gold hover:bg-gold-dark text-midnight font-semibold w-full"
-              >
-                <a href="tel:+923332317861">
-                  <Phone className="w-4 h-4 mr-2" />
-                  +92 333 2317861
-                </a>
-              </Button>
-            </div>
-          </div>
-        )}
-      </nav>
+      )}
     </header>
   )
 }

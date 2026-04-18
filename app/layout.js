@@ -3,14 +3,13 @@ import "./globals.css";
 import { Header } from "@/components/header.jsx";
 import { AppThemeProvider } from "@/components/theme-provider.jsx";
 import { Footer } from "@/components/footer";
-// Zaroori: Direct next-themes se nahi, balkay apni file se import karein
 
-const geistSans = Geist({
+const fontSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
+const fontMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
@@ -22,16 +21,13 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-      suppressHydrationWarning 
-    >
+    // 1. suppressHydrationWarning yahan zaroori hai (Next-Themes ke liye)
+    <html lang="en" suppressHydrationWarning>
       <body 
-        className="min-h-full flex flex-col bg-background text-foreground"
-        suppressHydrationWarning={true}
+        className={`${fontSans.variable} ${fontMono.variable} min-h-screen flex flex-col bg-background text-foreground antialiased`}
+        // 2. Body par bhi ye laga dein taake extensions (ColorZilla etc) error na dein
+        suppressHydrationWarning 
       >
-        {/* Humne yahan AppThemeProvider use kiya hai jo client-safe hai */}
         <AppThemeProvider
           attribute="class"
           defaultTheme="dark"
@@ -39,6 +35,7 @@ export default function RootLayout({ children }) {
           disableTransitionOnChange
         >
           <Header />
+          {/* 3. pt-20 theek hai kyunke Header fixed hai */}
           <main className="flex-grow pt-20">
             {children}
           </main>

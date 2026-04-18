@@ -70,55 +70,60 @@ export function ContactSection() {
             ) : (
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                 <div className="grid sm:grid-cols-2 gap-6">
-                  {/* Name Input - FIXED */}
+                  
+                  {/* Name Input - FIXED IDs */}
                   <div className="space-y-2">
-                    <label htmlFor="full-name" className="text-xs font-semibold uppercase text-foreground/50 ml-1 cursor-pointer">Full Name</label>
+                    <label 
+                      htmlFor="full-name" 
+                      className="text-xs font-semibold uppercase text-foreground/50 ml-1 cursor-pointer hover:text-gold transition-colors block"
+                    >
+                      Full Name
+                    </label>
                     <Input
-                      id="full-name" // Added id
+                      id="full-name"
                       {...register("name", { required: "Name is required" })}
                       placeholder="Your name"
-                      className={`bg-midnight/40 border-white/10 text-foreground ${errors.name ? 'border-red-500' : ''}`}
+                      className={`bg-midnight/40 border-white/10 text-white h-12 ${errors.name ? 'border-red-500' : ''}`}
                     />
                     {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>}
                   </div>
 
-                  {/* Phone Input - FIXED */}
-                 <div className="space-y-2">
-  {/* Label par cursor-pointer aur thora hover effect */}
-  <label 
-    htmlFor="full-name" 
-    className="text-xs font-semibold uppercase text-foreground/50 ml-1 cursor-pointer hover:text-gold transition-colors block"
-  >
-    Full Name
-  </label>
-  
-  <Input
-    id="full-name" // Matching with htmlFor
-    {...register("name", { required: "Name is required" })}
-    placeholder="Your name"
-    className={`bg-midnight/40 border-white/10 text-white h-12 ${errors.name ? 'border-red-500' : ''}`}
-  />
-  {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>}
-</div>
+                  {/* Phone Input - FIXED IDs (Pehele yahan bhi 'full-name' use ho raha tha) */}
+                  <div className="space-y-2">
+                    <label 
+                      htmlFor="phone-number" 
+                      className="text-xs font-semibold uppercase text-foreground/50 ml-1 cursor-pointer hover:text-gold transition-colors block"
+                    >
+                      Phone Number
+                    </label>
+                    <Input
+                      id="phone-number"
+                      type="tel"
+                      {...register("phone", { required: "Phone is required" })}
+                      placeholder="+92 3xx xxxxxxx"
+                      className={`bg-midnight/40 border-white/10 text-white h-12 ${errors.phone ? 'border-red-500' : ''}`}
+                    />
+                    {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone.message}</p>}
+                  </div>
                 </div>
 
-                {/* Email Input - FIXED */}
+                {/* Email Input */}
                 <div className="space-y-2">
                   <label htmlFor="email-address" className="text-xs font-semibold uppercase text-foreground/50 ml-1 cursor-pointer">Email Address</label>
                   <Input
-                    id="email-address" // Added id
+                    id="email-address"
                     type="email"
                     {...register("email", { 
                         required: "Email is required",
                         pattern: { value: /^\S+@\S+$/i, message: "Invalid email" }
                     })}
                     placeholder="example@mail.com"
-                    className={`bg-midnight/40 border-white/10 text-foreground ${errors.email ? 'border-red-500' : ''}`}
+                    className={`bg-midnight/40 border-white/10 text-white h-12 ${errors.email ? 'border-red-500' : ''}`}
                   />
                   {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
                 </div>
 
-                {/* Service Selection - FIXED */}
+                {/* Service Selection */}
                 <div className="space-y-2">
                   <label htmlFor="service-select" className="text-xs font-semibold uppercase text-foreground/50 ml-1 cursor-pointer">Service Required</label>
                   <div className="relative">
@@ -141,14 +146,14 @@ export function ContactSection() {
                   {errors.service && <p className="text-red-500 text-xs mt-1">{errors.service.message}</p>}
                 </div>
 
-                {/* Message Input - FIXED */}
+                {/* Message Input */}
                 <div className="space-y-2">
                   <label htmlFor="message-box" className="text-xs font-semibold uppercase text-foreground/50 ml-1 cursor-pointer">Your Message</label>
                   <Textarea
-                    id="message-box" // Added id
+                    id="message-box"
                     {...register("message", { required: "Message cannot be empty", minLength: { value: 10, message: "Too short!" } })}
                     placeholder="Tell us about your requirements..."
-                    className={`bg-midnight/40 border-white/10 text-foreground resize-none ${errors.message ? 'border-red-500' : ''}`}
+                    className={`bg-midnight/40 border-white/10 text-white resize-none ${errors.message ? 'border-red-500' : ''}`}
                     rows={4}
                   />
                   {errors.message && <p className="text-red-500 text-xs mt-1">{errors.message.message}</p>}
@@ -157,7 +162,7 @@ export function ContactSection() {
                 <Button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-gold hover:bg-gold-dark text-midnight font-bold py-7 rounded-2xl shadow-lg shadow-gold/10"
+                  className="w-full bg-gold hover:bg-[#c5a037] text-midnight font-bold py-7 rounded-2xl shadow-lg shadow-gold/10"
                 >
                   {isSubmitting ? <><Loader2 className="w-5 h-5 mr-2 animate-spin" /> Processing...</> : <><Send className="w-5 h-5 mr-2" /> Send Message</>}
                 </Button>

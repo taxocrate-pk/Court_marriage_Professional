@@ -24,12 +24,7 @@ export function HeroSection() {
         <div className="flex flex-col items-center justify-center text-center">
           
           {/* Trust Badge - Original styling but theme aware */}
-          <div className="glass-card rounded-full px-6 py-2.5 mb-10 flex items-center justify-center gap-2.5 border border-border/60">
-            <Shield className="w-4 h-4 text-gold flex-shrink-0" />
-            <span className="text-sm font-semibold tracking-wide text-foreground">
-              #1 Registered Family Law Firm in Pakistan
-            </span>
-          </div>
+    
 
           {/* Main Heading - Specific original typography */}
           <h1 className="text-5xl sm:text-7xl lg:text-8xl font-extrabold tracking-tight leading-[1.1] text-balance">
