@@ -74,14 +74,17 @@ export function Header() {
 
           <div className="flex items-center gap-2">
             {/* Theme Toggle Button (Desktop) */}
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              className="text-foreground hover:bg-gold/10"
-            >
-              {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-            </Button>
+  {/* Theme Toggle Button (Desktop) */}
+<Button
+  variant="ghost"
+  size="icon"
+  onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+  className="text-foreground hover:bg-gold/10"
+  // Fix: Accessibility label added
+  aria-label="Toggle theme"
+>
+  {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+</Button>
 
             {/* CTA Button */}
             <div className="hidden md:flex items-center gap-4">
@@ -97,12 +100,16 @@ export function Header() {
             </div>
 
             {/* Mobile Menu Button */}
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden p-2 rounded-lg text-foreground hover:bg-gold/10"
-            >
-              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
+          {/* Mobile Menu Button */}
+<button
+  onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+  className="md:hidden p-2 rounded-lg text-foreground hover:bg-gold/10"
+  // Fix: Accessibility label and state added
+  aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+  aria-expanded={isMobileMenuOpen}
+>
+  {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+</button>
           </div>
         </div>
 
