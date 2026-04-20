@@ -4,6 +4,7 @@ import { Header } from "@/components/header.jsx";
 import { AppThemeProvider } from "@/components/theme-provider.jsx";
 import { Footer } from "@/components/footer";
 
+// Ye fonts define hona zaroori hain
 const fontSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -21,11 +22,9 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    // 1. suppressHydrationWarning yahan zaroori hai (Next-Themes ke liye)
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth">
       <body 
         className={`${fontSans.variable} ${fontMono.variable} min-h-screen flex flex-col bg-background text-foreground antialiased`}
-        // 2. Body par bhi ye laga dein taake extensions (ColorZilla etc) error na dein
         suppressHydrationWarning 
       >
         <AppThemeProvider
@@ -35,7 +34,6 @@ export default function RootLayout({ children }) {
           disableTransitionOnChange
         >
           <Header />
-          {/* 3. pt-20 theek hai kyunke Header fixed hai */}
           <main className="flex-grow pt-20">
             {children}
           </main>

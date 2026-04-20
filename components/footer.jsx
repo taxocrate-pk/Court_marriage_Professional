@@ -36,10 +36,14 @@ export function Footer() {
               <div className="w-10 h-10 rounded-lg bg-gold/20 border border-gold/30 flex items-center justify-center">
                 <Scale className="w-5 h-5 text-gold" aria-hidden="true" />
               </div>
-<div className="hidden sm:block">
-  <div className="text-lg font-bold text-foreground">COURT MARRIAGE</div>
-  <div className="text-xs text-gold font-medium -mt-0.5">PROFESSIONAL</div>
-</div>
+    <div className="hidden sm:block">
+            <div className="text-lg font-bold text-white uppercase tracking-tight">
+              Court <span className="text-gold ml-1">Marriage</span>
+            </div>
+            <div className="text-[10px] text-white font-medium -mt-1 tracking-[0.2em] uppercase">
+              Professional
+            </div>
+          </div>
             </Link>
             <p className="text-foreground/70 text-sm leading-relaxed mb-6">
               Pakistan&apos;s trusted family law firm with 40+ years of experience. 
@@ -96,7 +100,7 @@ export function Footer() {
                   aria-label="Call us at +92 333 2317861"
                 >
                   <Phone className="w-4 h-4 mt-0.5 shrink-0" aria-hidden="true" />
-                  <span>+92 333 2317861</span>
+                  <span>+92 333 2316871</span>
                 </a>
               </li>
               <li>

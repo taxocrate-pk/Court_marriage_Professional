@@ -35,9 +35,9 @@ export function Header() {
           </div>
           <div className="hidden sm:block">
             <div className="text-lg font-bold text-white uppercase tracking-tight">
-              CourtMarriage <span className="text-gold ml-1">Pro</span>
+              Court <span className="text-gold ml-1">Marriage</span>
             </div>
-            <div className="text-[10px] text-gold font-medium -mt-1 tracking-[0.2em] uppercase">
+            <div className="text-[10px] text-white font-medium -mt-1 tracking-[0.2em] uppercase">
               Professional
             </div>
           </div>
