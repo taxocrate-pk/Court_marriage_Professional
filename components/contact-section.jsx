@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import axios from 'axios'
 import { useForm } from 'react-hook-form'
-import { MapPin, Phone, Mail, Send, CheckCircle2, Loader2, ShieldCheck, Clock, Gavel } from 'lucide-react'
+import { Send, CheckCircle2, Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { Input } from './ui/input'
@@ -47,53 +47,50 @@ export function ContactSection() {
   }
 
   return (
-    <section id="contact" className="py-20 lg:py-32 relative overflow-hidden">
+    <section id="contact" className="py-20 lg:py-32 relative overflow-hidden" aria-labelledby="contact-heading">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-16 items-start">
           
           {/* LEFT SIDE (Info) */}
           <div className="space-y-10">
-              <h2 className="text-3xl font-bold text-white">Contact Our Legal Experts</h2>
-              <p className="text-slate-400">Get in touch for a confidential consultation regarding your legal marriage requirements.</p>
+              <h2 id="contact-heading" className="text-3xl font-bold text-white">Contact Our Legal Experts</h2>
+              <p className="text-gray-300">
+                Get in touch for a confidential consultation regarding your legal marriage requirements.
+              </p>
           </div>
 
           {/* RIGHT SIDE: The Form */}
           <div className="glass-card-strong rounded-3xl p-6 sm:p-10 border border-white/10 shadow-2xl relative">
-            <h3 className="text-xl font-bold text-foreground mb-8">Send Us a Message</h3>
+            <h3 className="text-xl font-bold text-white mb-8">Send Us a Message</h3>
             
             {isSubmitted ? (
-              <div className="flex flex-col items-center justify-center py-16 text-center">
-                <CheckCircle2 className="w-10 h-10 text-green-500 mb-6" />
-                <h4 className="text-2xl font-bold text-foreground mb-2">Thank You!</h4>
-                <p className="text-foreground/70">Your message has been received.</p>
+              <div role="alert" className="flex flex-col items-center justify-center py-16 text-center">
+                <CheckCircle2 className="w-10 h-10 text-green-500 mb-6" aria-hidden="true" />
+                <h4 className="text-2xl font-bold text-white mb-2">Thank You!</h4>
+                <p className="text-gray-300">Your message has been received.</p>
               </div>
             ) : (
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" noValidate>
                 <div className="grid sm:grid-cols-2 gap-6">
                   
-                  {/* Name Input - FIXED IDs */}
+                  {/* Name Input */}
                   <div className="space-y-2">
-                    <label 
-                      htmlFor="full-name" 
-                      className="text-xs font-semibold uppercase text-foreground/50 ml-1 cursor-pointer hover:text-gold transition-colors block"
-                    >
+                    <label htmlFor="full-name" className="text-xs font-semibold uppercase text-gray-300 ml-1 cursor-pointer hover:text-gold transition-colors block">
                       Full Name
                     </label>
                     <Input
                       id="full-name"
                       {...register("name", { required: "Name is required" })}
                       placeholder="Your name"
+                      aria-invalid={errors.name ? "true" : "false"}
                       className={`bg-midnight/40 border-white/10 text-white h-12 ${errors.name ? 'border-red-500' : ''}`}
                     />
-                    {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>}
+                    {errors.name && <p className="text-red-500 text-xs mt-1" role="alert">{errors.name.message}</p>}
                   </div>
 
-                  {/* Phone Input - FIXED IDs (Pehele yahan bhi 'full-name' use ho raha tha) */}
+                  {/* Phone Input */}
                   <div className="space-y-2">
-                    <label 
-                      htmlFor="phone-number" 
-                      className="text-xs font-semibold uppercase text-foreground/50 ml-1 cursor-pointer hover:text-gold transition-colors block"
-                    >
+                    <label htmlFor="phone-number" className="text-xs font-semibold uppercase text-gray-300 ml-1 cursor-pointer hover:text-gold transition-colors block">
                       Phone Number
                     </label>
                     <Input
@@ -101,15 +98,16 @@ export function ContactSection() {
                       type="tel"
                       {...register("phone", { required: "Phone is required" })}
                       placeholder="+92 3xx xxxxxxx"
+                      aria-invalid={errors.phone ? "true" : "false"}
                       className={`bg-midnight/40 border-white/10 text-white h-12 ${errors.phone ? 'border-red-500' : ''}`}
                     />
-                    {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone.message}</p>}
+                    {errors.phone && <p className="text-red-500 text-xs mt-1" role="alert">{errors.phone.message}</p>}
                   </div>
                 </div>
 
                 {/* Email Input */}
                 <div className="space-y-2">
-                  <label htmlFor="email-address" className="text-xs font-semibold uppercase text-foreground/50 ml-1 cursor-pointer">Email Address</label>
+                  <label htmlFor="email-address" className="text-xs font-semibold uppercase text-gray-300 ml-1 cursor-pointer">Email Address</label>
                   <Input
                     id="email-address"
                     type="email"
@@ -118,14 +116,15 @@ export function ContactSection() {
                         pattern: { value: /^\S+@\S+$/i, message: "Invalid email" }
                     })}
                     placeholder="example@mail.com"
+                    aria-invalid={errors.email ? "true" : "false"}
                     className={`bg-midnight/40 border-white/10 text-white h-12 ${errors.email ? 'border-red-500' : ''}`}
                   />
-                  {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
+                  {errors.email && <p className="text-red-500 text-xs mt-1" role="alert">{errors.email.message}</p>}
                 </div>
 
                 {/* Service Selection */}
                 <div className="space-y-2">
-                  <label htmlFor="service-select" className="text-xs font-semibold uppercase text-foreground/50 ml-1 cursor-pointer">Service Required</label>
+                  <label htmlFor="service-select" className="text-xs font-semibold uppercase text-gray-300 ml-1 cursor-pointer">Service Required</label>
                   <div className="relative">
                     <select
                       id="service-select"
@@ -137,26 +136,27 @@ export function ContactSection() {
                       <option value="online-nikah" className="bg-slate-900 text-white">Online Nikah</option>
                       <option value="divorce" className="bg-slate-900 text-white">Divorce / Khula</option>
                     </select>
-                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-white/50">
+                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-white/50" aria-hidden="true">
                       <svg className="h-4 w-4 fill-current" viewBox="0 0 20 20">
                         <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
                       </svg>
                     </div>
                   </div>
-                  {errors.service && <p className="text-red-500 text-xs mt-1">{errors.service.message}</p>}
+                  {errors.service && <p className="text-red-500 text-xs mt-1" role="alert">{errors.service.message}</p>}
                 </div>
 
                 {/* Message Input */}
                 <div className="space-y-2">
-                  <label htmlFor="message-box" className="text-xs font-semibold uppercase text-foreground/50 ml-1 cursor-pointer">Your Message</label>
+                  <label htmlFor="message-box" className="text-xs font-semibold uppercase text-gray-300 ml-1 cursor-pointer">Your Message</label>
                   <Textarea
                     id="message-box"
                     {...register("message", { required: "Message cannot be empty", minLength: { value: 10, message: "Too short!" } })}
                     placeholder="Tell us about your requirements..."
+                    aria-invalid={errors.message ? "true" : "false"}
                     className={`bg-midnight/40 border-white/10 text-white resize-none ${errors.message ? 'border-red-500' : ''}`}
                     rows={4}
                   />
-                  {errors.message && <p className="text-red-500 text-xs mt-1">{errors.message.message}</p>}
+                  {errors.message && <p className="text-red-500 text-xs mt-1" role="alert">{errors.message.message}</p>}
                 </div>
 
                 <Button
@@ -164,7 +164,7 @@ export function ContactSection() {
                   disabled={isSubmitting}
                   className="w-full bg-gold hover:bg-[#c5a037] text-midnight font-bold py-7 rounded-2xl shadow-lg shadow-gold/10"
                 >
-                  {isSubmitting ? <><Loader2 className="w-5 h-5 mr-2 animate-spin" /> Processing...</> : <><Send className="w-5 h-5 mr-2" /> Send Message</>}
+                  {isSubmitting ? <><Loader2 className="w-5 h-5 mr-2 animate-spin" aria-hidden="true" /> Processing...</> : <><Send className="w-5 h-5 mr-2" aria-hidden="true" /> Send Message</>}
                 </Button>
               </form>
             )}

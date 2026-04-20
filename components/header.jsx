@@ -16,7 +16,7 @@ export function Header() {
     { path: '/services/court-marriage', label: 'Court Marriage' },
     { path: '/services/online-nikah', label: 'Online Nikah' },
     { path: '/services/overseas-support', label: 'Overseas Pakistanis' },
-    { path: '/services/legal-nadra-process', label: 'NADRA Registration' },
+    { path: '/services/sharia-compliant', label: 'NADRA Registration' },
   ]
 
   const cityItems = [
