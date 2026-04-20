@@ -19,11 +19,15 @@ export function ContactSection() {
     formState: { errors },
   } = useForm()
 
+  // DATABASE CONNECTIVITY LOGIC (Fixed & Restored)
   const onSubmit = async (data) => {
     setIsSubmitting(true)
     try {
+      // Aapka database endpoint
       const res = await axios.post('/api/contact', data)
+      
       if (res.status === 200) {
+        // WhatsApp notification logic
         const myWhatsAppNumber = "923332316871";
         const messageText = `*New Inquiry via Portal*%0A%0A` +
                             `*Name:* ${data.name}%0A` +
@@ -33,14 +37,19 @@ export function ContactSection() {
                             `*Details:* ${data.message}`;
 
         const whatsappUrl = `https://wa.me/${myWhatsAppNumber}?text=${messageText}`;
-        window.location.href = whatsappUrl;
+        
+        // Form states update
         setIsSubmitted(true)
         reset()
+        
+        // Redirect to WhatsApp
+        window.location.href = whatsappUrl;
+        
         setTimeout(() => setIsSubmitted(false), 5000)
       }
     } catch (err) {
       console.error("Submission Error:", err)
-      alert("Database connection error!")
+      alert("Database connection error! Check your API route.")
     } finally {
       setIsSubmitting(false)
     }
@@ -51,7 +60,6 @@ export function ContactSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-16 items-start">
           
-          {/* LEFT SIDE (Info) */}
           <div className="space-y-10">
               <h2 id="contact-heading" className="text-3xl font-bold text-white">Contact Our Legal Experts</h2>
               <p className="text-gray-300">
@@ -59,7 +67,6 @@ export function ContactSection() {
               </p>
           </div>
 
-          {/* RIGHT SIDE: The Form */}
           <div className="glass-card-strong rounded-3xl p-6 sm:p-10 border border-white/10 shadow-2xl relative">
             <h3 className="text-xl font-bold text-white mb-8">Send Us a Message</h3>
             
@@ -72,25 +79,21 @@ export function ContactSection() {
             ) : (
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" noValidate>
                 <div className="grid sm:grid-cols-2 gap-6">
-                  
-                  {/* Name Input */}
                   <div className="space-y-2">
-                    <label htmlFor="full-name" className="text-xs font-semibold uppercase text-gray-300 ml-1 cursor-pointer hover:text-gold transition-colors block">
+                    <label htmlFor="full-name" className="text-xs font-semibold uppercase text-gray-300 ml-1 cursor-pointer block">
                       Full Name
                     </label>
                     <Input
                       id="full-name"
                       {...register("name", { required: "Name is required" })}
                       placeholder="Your name"
-                      aria-invalid={errors.name ? "true" : "false"}
                       className={`bg-midnight/40 border-white/10 text-white h-12 ${errors.name ? 'border-red-500' : ''}`}
                     />
                     {errors.name && <p className="text-red-500 text-xs mt-1" role="alert">{errors.name.message}</p>}
                   </div>
 
-                  {/* Phone Input */}
                   <div className="space-y-2">
-                    <label htmlFor="phone-number" className="text-xs font-semibold uppercase text-gray-300 ml-1 cursor-pointer hover:text-gold transition-colors block">
+                    <label htmlFor="phone-number" className="text-xs font-semibold uppercase text-gray-300 ml-1 cursor-pointer block">
                       Phone Number
                     </label>
                     <Input
@@ -98,16 +101,14 @@ export function ContactSection() {
                       type="tel"
                       {...register("phone", { required: "Phone is required" })}
                       placeholder="+92 3xx xxxxxxx"
-                      aria-invalid={errors.phone ? "true" : "false"}
                       className={`bg-midnight/40 border-white/10 text-white h-12 ${errors.phone ? 'border-red-500' : ''}`}
                     />
                     {errors.phone && <p className="text-red-500 text-xs mt-1" role="alert">{errors.phone.message}</p>}
                   </div>
                 </div>
 
-                {/* Email Input */}
                 <div className="space-y-2">
-                  <label htmlFor="email-address" className="text-xs font-semibold uppercase text-gray-300 ml-1 cursor-pointer">Email Address</label>
+                  <label htmlFor="email-address" className="text-xs font-semibold uppercase text-gray-300 ml-1 cursor-pointer block">Email Address</label>
                   <Input
                     id="email-address"
                     type="email"
@@ -116,15 +117,13 @@ export function ContactSection() {
                         pattern: { value: /^\S+@\S+$/i, message: "Invalid email" }
                     })}
                     placeholder="example@mail.com"
-                    aria-invalid={errors.email ? "true" : "false"}
                     className={`bg-midnight/40 border-white/10 text-white h-12 ${errors.email ? 'border-red-500' : ''}`}
                   />
                   {errors.email && <p className="text-red-500 text-xs mt-1" role="alert">{errors.email.message}</p>}
                 </div>
 
-                {/* Service Selection */}
                 <div className="space-y-2">
-                  <label htmlFor="service-select" className="text-xs font-semibold uppercase text-gray-300 ml-1 cursor-pointer">Service Required</label>
+                  <label htmlFor="service-select" className="text-xs font-semibold uppercase text-gray-300 ml-1 cursor-pointer block">Service Required</label>
                   <div className="relative">
                     <select
                       id="service-select"
@@ -145,14 +144,12 @@ export function ContactSection() {
                   {errors.service && <p className="text-red-500 text-xs mt-1" role="alert">{errors.service.message}</p>}
                 </div>
 
-                {/* Message Input */}
                 <div className="space-y-2">
-                  <label htmlFor="message-box" className="text-xs font-semibold uppercase text-gray-300 ml-1 cursor-pointer">Your Message</label>
+                  <label htmlFor="message-box" className="text-xs font-semibold uppercase text-gray-300 ml-1 cursor-pointer block">Your Message</label>
                   <Textarea
                     id="message-box"
                     {...register("message", { required: "Message cannot be empty", minLength: { value: 10, message: "Too short!" } })}
                     placeholder="Tell us about your requirements..."
-                    aria-invalid={errors.message ? "true" : "false"}
                     className={`bg-midnight/40 border-white/10 text-white resize-none ${errors.message ? 'border-red-500' : ''}`}
                     rows={4}
                   />
