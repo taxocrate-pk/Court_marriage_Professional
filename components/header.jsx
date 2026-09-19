@@ -11,19 +11,19 @@ export function Header() {
   const { theme, setTheme } = useTheme()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
-  // Updated Lists
-  const mainServices = [
-    { path: '/services/court-marriage', label: 'Court Marriage' },
-    { path: '/services/online-nikah', label: 'Online Nikah' },
-    { path: '/services/overseas-support', label: 'Overseas Pakistanis' },
-    { path: '/services/sharia-compliant', label: 'NADRA Registration' },
+  const courtMarriageCities = [
+    { path: '/services/cities-services/karachi', label: 'Karachi' },
+    { path: '/services/cities-services/lahore', label: 'Lahore' },
+    { path: '/services/cities-services/islamabad', label: 'Islamabad' },
+    { path: '/services/cities-services/rawalpindi', label: 'Rawalpindi' },
+    { path: '/services/cities-services/faisalabad', label: 'Faisalabad' },
   ]
 
-  const cityItems = [
-    { path: '/services/cities-services/karachi', label: 'Karachi' },
-    { path: '/services/cities-services/islamabad', label: 'Islamabad' },
-    { path: '/services/cities-services/lahore', label: 'Lahore' },
-    { path: '/services/cities-services/rawalpindi', label: 'Rawalpindi' }
+  const onlineNikahCities = [
+    { path: '/services/online-nikah/karachi', label: 'Karachi' },
+    { path: '/services/online-nikah/lahore', label: 'Lahore' },
+    { path: '/services/online-nikah/islamabad', label: 'Islamabad' },
+    { path: '/services/online-nikah/rawalpindi', label: 'Rawalpindi' },
   ]
 
   useEffect(() => {
@@ -58,52 +58,72 @@ export function Header() {
             Home
           </Link>
           
-          {/* Services Dropdown */}
-          <div className="relative group">
+          {/* Our Services Dropdown */}
+          <div className="relative group/services">
             <button 
               className="flex items-center gap-1 text-sm font-medium hover:text-gold transition-colors text-white py-8 focus-visible:ring-2 focus-visible:ring-gold outline-none" 
               aria-haspopup="true"
               aria-expanded="false"
-              aria-label="Toggle Services Menu"
+              aria-label="Open Our Services menu"
             >
-              Services <ChevronDown className="w-4 h-4 text-gold" aria-hidden="true" />
+              Our Services <ChevronDown className="w-4 h-4 text-gold" aria-hidden="true" />
             </button>
             
-            {/* First Level Dropdown */}
-            <div className="absolute top-[80px] left-0 mt-0 w-64 bg-black border border-gold/20 rounded-xl shadow-[0_10px_40px_-10px_rgba(0,0,0,1)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 p-2">
+            <div className="absolute top-[80px] left-0 w-64 bg-black border border-gold/20 rounded-xl shadow-[0_10px_40px_-10px_rgba(0,0,0,1)] opacity-0 invisible group-hover/services:opacity-100 group-hover/services:visible transition-all z-50 p-2">
               <div className="space-y-1" role="menu">
-                <p className="text-gold text-[10px] font-black uppercase tracking-widest mb-2 px-3 pt-2" role="presentation">Our Services</p>
-                {mainServices.map((item) => (
-                  <Link
-                    key={item.path}
-                    href={item.path}
-                    role="menuitem"
-                    className="block px-3 py-2 text-sm font-medium rounded-lg hover:bg-gold/10 hover:text-gold transition-colors text-zinc-300 focus-visible:bg-gold/10 outline-none"
-                  >
-                    {item.label}
-                  </Link>
-                ))}
+                <p className="text-gold text-[10px] font-black uppercase tracking-widest mb-2 px-3 pt-2" role="presentation">Marriage Services</p>
 
-                {/* Second Level: Cities Services Folder */}
-                <div className="relative group/cities pt-2 mt-2 border-t border-gold/10">
-                  <div 
-                    className="flex items-center justify-between px-3 py-2 text-sm font-medium rounded-lg hover:bg-gold/10 hover:text-gold transition-colors text-zinc-300 cursor-pointer"
-                    aria-haspopup="true"
-                    role="button"
-                  >
-                    City Services <ChevronRight className="w-4 h-4 text-gold" aria-hidden="true" />
+                {/* Court Marriage -> Cities */}
+                <div className="relative group/court">
+                  <div className="flex items-center rounded-lg hover:bg-gold/10 transition-colors">
+                    <Link
+                      href="/services/court-marriage"
+                      role="menuitem"
+                      className="flex-1 px-3 py-2 text-sm font-medium text-zinc-300 hover:text-gold focus-visible:text-gold outline-none"
+                    >
+                      Court Marriage
+                    </Link>
+                    <ChevronRight className="w-4 h-4 text-gold mr-3" aria-hidden="true" />
                   </div>
 
-                  {/* Second Level Dropdown */}
-                  <div className="absolute top-0 left-full ml-1 w-48 bg-black border border-gold/20 rounded-xl shadow-2xl opacity-0 invisible group-hover/cities:opacity-100 group-hover/cities:visible transition-all p-2" role="menu">
-                    {cityItems.map((item) => (
+                  <div className="absolute top-0 left-full ml-1 w-52 bg-black border border-gold/20 rounded-xl shadow-2xl opacity-0 invisible group-hover/court:opacity-100 group-hover/court:visible transition-all p-2" role="menu" aria-label="Court Marriage city pages">
+                    <p className="text-gold text-[10px] font-black uppercase tracking-widest px-3 py-2">Court Marriage Cities</p>
+                    {courtMarriageCities.map((item) => (
                       <Link
                         key={item.path}
                         href={item.path}
                         role="menuitem"
                         className="block px-3 py-2 text-sm font-medium rounded-lg hover:bg-gold/10 hover:text-gold transition-colors text-zinc-300 focus-visible:bg-gold/10 outline-none"
                       >
-                        {item.label}
+                        Court Marriage {item.label}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Online Nikah -> Cities */}
+                <div className="relative group/online">
+                  <div className="flex items-center rounded-lg hover:bg-gold/10 transition-colors">
+                    <Link
+                      href="/services/online-nikah"
+                      role="menuitem"
+                      className="flex-1 px-3 py-2 text-sm font-medium text-zinc-300 hover:text-gold focus-visible:text-gold outline-none"
+                    >
+                      Online Nikah
+                    </Link>
+                    <ChevronRight className="w-4 h-4 text-gold mr-3" aria-hidden="true" />
+                  </div>
+
+                  <div className="absolute top-0 left-full ml-1 w-52 bg-black border border-gold/20 rounded-xl shadow-2xl opacity-0 invisible group-hover/online:opacity-100 group-hover/online:visible transition-all p-2" role="menu" aria-label="Online Nikah city pages">
+                    <p className="text-gold text-[10px] font-black uppercase tracking-widest px-3 py-2">Online Nikah Cities</p>
+                    {onlineNikahCities.map((item) => (
+                      <Link
+                        key={item.path}
+                        href={item.path}
+                        role="menuitem"
+                        className="block px-3 py-2 text-sm font-medium rounded-lg hover:bg-gold/10 hover:text-gold transition-colors text-zinc-300 focus-visible:bg-gold/10 outline-none"
+                      >
+                        Online Nikah {item.label}
                       </Link>
                     ))}
                   </div>
@@ -160,25 +180,36 @@ export function Header() {
 
       {/* Mobile Menu Overlay */}
       {isMenuOpen && (
-        <nav className="md:hidden bg-black border-b border-gold/10 p-4 space-y-4 animate-in slide-in-from-top" aria-label="Mobile Navigation">
+        <nav className="md:hidden bg-black border-b border-gold/10 p-4 space-y-4 max-h-[calc(100vh-5rem)] overflow-y-auto animate-in slide-in-from-top" aria-label="Mobile Navigation">
           <Link href="/" className="block text-white font-semibold" onClick={() => setIsMenuOpen(false)}>Home</Link>
           
-          <div className="pl-4 border-l border-gold/20 space-y-4">
+          <div className="pl-4 border-l border-gold/20 space-y-5">
+            <p className="text-gold text-[10px] font-bold uppercase tracking-widest" role="presentation">Our Services</p>
+
             <div>
-              <p className="text-gold text-[10px] font-bold uppercase tracking-widest mb-2" role="presentation">Our Services</p>
-              {mainServices.map(item => (
-                <Link key={item.path} href={item.path} className="block text-white font-medium text-sm py-1" onClick={() => setIsMenuOpen(false)}>
-                  {item.label}
-                </Link>
-              ))}
+              <Link href="/services/court-marriage" className="flex items-center justify-between text-white font-semibold text-sm py-1" onClick={() => setIsMenuOpen(false)}>
+                Court Marriage <ChevronRight className="w-4 h-4 text-gold" aria-hidden="true" />
+              </Link>
+              <div className="mt-2 pl-4 border-l border-gold/10 space-y-1">
+                {courtMarriageCities.map(item => (
+                  <Link key={item.path} href={item.path} className="block text-zinc-300 hover:text-gold font-medium text-sm py-1.5" onClick={() => setIsMenuOpen(false)}>
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
             </div>
+
             <div>
-              <p className="text-gold text-[10px] font-bold uppercase tracking-widest mb-2" role="presentation">Cities Services</p>
-              {cityItems.map(item => (
-                <Link key={item.path} href={item.path} className="block text-white font-medium text-sm py-1" onClick={() => setIsMenuOpen(false)}>
-                  {item.label}
-                </Link>
-              ))}
+              <Link href="/services/online-nikah" className="flex items-center justify-between text-white font-semibold text-sm py-1" onClick={() => setIsMenuOpen(false)}>
+                Online Nikah <ChevronRight className="w-4 h-4 text-gold" aria-hidden="true" />
+              </Link>
+              <div className="mt-2 pl-4 border-l border-gold/10 space-y-1">
+                {onlineNikahCities.map(item => (
+                  <Link key={item.path} href={item.path} className="block text-zinc-300 hover:text-gold font-medium text-sm py-1.5" onClick={() => setIsMenuOpen(false)}>
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
             </div>
           </div>
 
