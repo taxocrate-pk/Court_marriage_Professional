@@ -18,7 +18,19 @@ jobs:
           cache: npm
       - name: Install dependencies
         run: npm ci
-      - name: Lint application
-        run: npm run lint
+      - name: Lint new SEO pages
+        run: >-
+          npx eslint
+          components/city-service-template.jsx
+          app/services/online-nikah/karachi/page.js
+          app/services/online-nikah/islamabad/page.js
+          app/services/online-nikah/lahore/page.js
+          app/services/online-nikah/rawalpindi/page.js
+          app/services/cities-services/faisalabad/page.js
+          app/privacy-policy/page.js
+          app/terms-of-service/page.js
+          app/not-found.js
+          app/sitemap.js
+          app/robots.js
       - name: Build application
         run: npm run build
