@@ -63,7 +63,7 @@ export function HeroSection() {
   // aria-label zaroori hai agar icon text ke sath blend ho raha ho
   aria-label="Call for Fee Details"
 >
-  <a href="tel:+923332317861" className="flex items-center">
+  <a href="tel:+923332316871" className="flex items-center">
     {/* Icon ka color dark rakhein taake gold par nazar aaye */}
     <Phone className="w-5 h-5 mr-2.5 text-[#020617]" />
     Call for Fee Details
