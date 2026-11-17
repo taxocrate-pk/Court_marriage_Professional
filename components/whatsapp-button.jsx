@@ -4,7 +4,7 @@ import { MessageCircle } from 'lucide-react'
 
 export function WhatsAppButton() {
   // 1. WhatsApp API Details
-  const phoneNumber = '923332317861'
+  const phoneNumber = '923332316871'
   const message = encodeURIComponent('Hello, I would like to inquire about your Court Marriage services.')
   
   // Official WhatsApp API link

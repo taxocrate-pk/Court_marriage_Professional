@@ -95,9 +95,9 @@ export function Footer() {
             <ul className="space-y-4" role="list">
               <li>
                 <a 
-                  href="tel:+923332317861"
+                  href="tel:+923332316871"
                   className="flex items-start gap-3 text-foreground/70 hover:text-gold text-sm transition-colors"
-                  aria-label="Call us at +92 333 2317861"
+                  aria-label="Call us at +92 333 2316871"
                 >
                   <Phone className="w-4 h-4 mt-0.5 shrink-0" aria-hidden="true" />
                   <span>+92 333 2316871</span>

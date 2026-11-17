@@ -224,7 +224,7 @@ export default function AboutPage() {
   className="bg-black hover:bg-black/80 text-white font-black h-16 px-12 rounded-full transition-all duration-300 hover:scale-105 active:scale-95 text-xl border border-gold/50 shadow-[0_0_30px_-5px_rgba(212,175,55,0.3)] group"
 >
   <a 
-    href={`https://wa.me/923332317861?text=${encodeURIComponent('Hello, I would like to inquire about your Court Marriage services.')}`} 
+    href={`https://wa.me/923332316871?text=${encodeURIComponent('Hello, I would like to inquire about your Court Marriage services.')}`} 
     target="_blank" 
     rel="noopener noreferrer"
     className="flex items-center gap-3 no-underline"
@@ -265,7 +265,7 @@ function WhatsAppIcon() {
 }
 
 function WhatsAppButton() {
-  const phoneNumber = '923332317861'
+  const phoneNumber = '923332316871'
   const message = encodeURIComponent('Hello, I would like to inquire about your Court Marriage services.')
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`
 
